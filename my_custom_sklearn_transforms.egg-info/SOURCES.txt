@@ -1,0 +1,8 @@
+setup.py
+linalg_norm/__init__.py
+linalg_norm/sklearn_transformers.py
+linalgnorm.egg-info/PKG-INFO
+linalgnorm.egg-info/SOURCES.txt
+linalgnorm.egg-info/dependency_links.txt
+linalgnorm.egg-info/not-zip-safe
+linalgnorm.egg-info/top_level.txt
