@@ -7,8 +7,9 @@ class DropColumns(object):
     def __init__(self, columns):
         self.columns = columns
 
-    def transform(self, x):
-        return x.copy().drop(labels=self.columns, axis='columns')
+    def transform(self, X):
+        # Criamos uma cópia do DataFrame e realizamos o drop das colunas desejadas
+        return X.copy().drop(labels=self.columns, axis='columns')
 
-    def fit(self, df, y=None):
+    def fit(self, X, y=None):
         return self
