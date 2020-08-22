@@ -1,3 +1,4 @@
+import numpy as np
 class Coding():
     def __init__(self, p):
         self.p = p
