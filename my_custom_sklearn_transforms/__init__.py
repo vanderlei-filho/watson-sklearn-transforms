@@ -1,2 +1,2 @@
-from .sklearn_transforms import DropColumn
+from .sklearn_transformers import DropColumns
 from .Codingfunc import Coding
