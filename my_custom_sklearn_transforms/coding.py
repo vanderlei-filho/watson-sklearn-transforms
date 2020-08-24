@@ -23,4 +23,4 @@ class Coding(BaseEstimator, TransformerMixin):
                 self.p1 = np.append(self.p1, 4)
             if self.p[i] == "DIFICULDADE":
                 self.p1 = np.append(self.p1, 5)
-        return self.p1
+        return np.ravel(self.p1)
