@@ -13,58 +13,18 @@ class DropColumns(BaseEstimator, TransformerMixin):
     def transform(self, X):
         # Primeiro realizamos a cópia do dataframe 'X' de entrada
         data = X.copy()
-        # RR agregamos tres columnas que expresan la relacion entre columnas significativas segun mi criterio (revisar class MinimColumns más adelante )
-        
-        data["Rel_CXP_CXC"] =  data["CXC"] / data["CXP"]
-        data["Rel_Bruta_U_P"] =  data["UTILIDAD_BRUTA"] / data["UTILIDAD_O_PERDIDA"]
-        data["Rel_TV_U_P"] =  data["TOTAL_VENTAS"] / data["UTILIDAD_O_PERDIDA"]
-        
+       
         # Retornamos um novo dataframe sem as colunas indesejadas
         return data.drop(labels=self.columns, axis='columns')
 
     
-    # RR  se requieren aplicar un criterio de minimo aceptable segun cada relación
 
-"""
-en mi excel, los vaores minimo son
-CXP / CXC > 1.2
-Utilidad_Bruta / Utilidad > 4 
-Total Ventas / Utilidad > 35
-
-"""
-
-def minimo_CXP_CXC ( CXP_CXC):
-        if   CXP_CXC > 1 :
-            return 1000
-        elif CXP_CXC == 0 :
-            return 1000 / 3
-        else:
-            return 0
-        
-
-def minimo_Bruta_U_P ( Bruta_U_P):
-        if   Bruta_U_P > 4 :
-            return 1000
-        elif Bruta_U_P == 0 :
-            return 1000 / 3
-        else:
-            return 100
-        
-
-def minimo_TV_U_P ( TV_U_P):
-        if   TV_U_P > 35 :
-            return 1000
-        elif TV_U_P == 0 :
-            return 1000 / 3
-        else:
-            return 100
-        
-
+# RR mi clase que agrega horas entre average
 
 # All sklearn Transforms must have the `transform` and `fit` methods
-class MinimColumns(BaseEstimator, TransformerMixin):
-    def __init__(self, columns):
-        self.columns = columns
+class Hours_Avg_Columns(BaseEstimator, TransformerMixin):
+    def __init__(self):
+        print ("Ya fue creado")
 
     def fit(self, X, y=None):
         return self
@@ -72,27 +32,27 @@ class MinimColumns(BaseEstimator, TransformerMixin):
     def transform(self, X):
         # Primero copiamos el dataframe de datos de entrada 'X'
         data = X.copy()
-        # RR Agregamos las columnas indicadoras de que sí cumplen con los mínimos establecidos por mi excel
+        avg1  = data['AVG_SCORE_DATASCIENCE'].mean() * 2
+        data['HOURS_AVG_DATASCIENCE'] = data['HOURS_DATASCIENCE'] / avg1
         
-        data["minimo_CXP_CXC"] = data["Rel_CXP_CXC"].apply (minimo_CXP_CXC)
-        # RR no aplicar data["minimo_Bruta_U_P"] = data["Rel_Bruta_U_P"].apply (minimo_Bruta_U_P) 
-        # RR no aplicar data["minimo_TV_U_P"] = data["Rel_TV_U_P"].apply (minimo_TV_U_P) 
+        avg2  = data['AVG_SCORE_BACKEND'].mean() * 2
+        data['HOURS_AVG_BACKEND'] = data['HOURS_BACKEND'] / avg2
         
-        # Devolvemos un nuevo dataframe de datos sin las columnas no deseadas
-        return data.drop(labels=self.columns, axis='columns')
+        avg3  = data['AVG_SCORE_FRONTEND'].mean() * 2
+        data['HOURS_AVG_FRONTEND'] = data['HOURS_FRONTEND'] / avg3
+        
+        # Normalizamos las columnasde Horas, como el minimo en todos los casos es cero, es muy fácil
+        Max1  = data['HOURS_DATASCIENCE'].max()
+        data['HOURS_DATASCIENCE_norm'] = data['HOURS_DATASCIENCE'] / Max1
+        data['AVG_SCORE_DATASCIENCE_norm'] =  data['AVG_SCORE_DATASCIENCE'] / 100
+        
+        Max2  = data['HOURS_BACKEND'].max()
+        data['HOURS_BACKEND_norm'] = data['HOURS_BACKEND'] / Max2
+        data['AVG_SCORE_BACKEND_norm'] =  data['AVG_SCORE_BACKEND'] / 100
+        
+        Max2  = data['HOURS_FRONTEND'].max()
+        data['HOURS_FRONTEND_norm'] = data['HOURS_FRONTEND'] / Max2
+        data['AVG_SCORE_FRONTEND_norm'] = data['AVG_SCORE_FRONTEND'] / 100
+        
+        return data
 
-    
-    
-# RR Desafio2    
-class DropColumnsDesaf2(BaseEstimator, TransformerMixin):
-    def __init__(self, columns):
-        self.columns = columns
-    
-    def fit(self, X, y=None):
-        return self
-    
-    def transform(self, X):
-        # Primero copiamos el dataframe de datos de entrada 'X'
-        data = X.copy()
-        # Devolvemos un nuevo dataframe de datos sin las columnas no deseadas
-        return data.drop(labels=self.columns, axis='columns')
