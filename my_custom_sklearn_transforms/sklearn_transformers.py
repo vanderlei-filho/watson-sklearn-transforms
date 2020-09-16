@@ -32,26 +32,26 @@ class Hours_Avg_Columns(BaseEstimator, TransformerMixin):
     def transform(self, X):
         # Primero copiamos el dataframe de datos de entrada 'X'
         data = X.copy()
-        avg1  = data['AVG_SCORE_DATASCIENCE'].mean() * 2
-        data['HOURS_AVG_DATASCIENCE'] = data['HOURS_DATASCIENCE'] / avg1
+        self.avg1  = data['AVG_SCORE_DATASCIENCE'].mean() * 2
+        data['HOURS_AVG_DATASCIENCE'] = data['HOURS_DATASCIENCE'] / self.avg1
         
-        avg2  = data['AVG_SCORE_BACKEND'].mean() * 2
-        data['HOURS_AVG_BACKEND'] = data['HOURS_BACKEND'] / avg2
+        self.avg2  = data['AVG_SCORE_BACKEND'].mean() * 2
+        data['HOURS_AVG_BACKEND'] = data['HOURS_BACKEND'] / self.avg2
         
-        avg3  = data['AVG_SCORE_FRONTEND'].mean() * 2
-        data['HOURS_AVG_FRONTEND'] = data['HOURS_FRONTEND'] / avg3
+        self.avg3  = data['AVG_SCORE_FRONTEND'].mean() * 2
+        data['HOURS_AVG_FRONTEND'] = data['HOURS_FRONTEND'] / self.avg3
         
         # Normalizamos las columnasde Horas, como el minimo en todos los casos es cero, es muy fácil
-        Max1  = data['HOURS_DATASCIENCE'].max()
-        data['HOURS_DATASCIENCE_norm'] = data['HOURS_DATASCIENCE'] / Max1
+        self.Max1  = data['HOURS_DATASCIENCE'].max()
+        data['HOURS_DATASCIENCE_norm'] = data['HOURS_DATASCIENCE'] / self.Max1
         data['AVG_SCORE_DATASCIENCE_norm'] =  data['AVG_SCORE_DATASCIENCE'] / 100
         
-        Max2  = data['HOURS_BACKEND'].max()
-        data['HOURS_BACKEND_norm'] = data['HOURS_BACKEND'] / Max2
+        self.Max2  = data['HOURS_BACKEND'].max()
+        data['HOURS_BACKEND_norm'] = data['HOURS_BACKEND'] / self.Max2
         data['AVG_SCORE_BACKEND_norm'] =  data['AVG_SCORE_BACKEND'] / 100
         
-        Max2  = data['HOURS_FRONTEND'].max()
-        data['HOURS_FRONTEND_norm'] = data['HOURS_FRONTEND'] / Max2
+        self.Max3  = data['HOURS_FRONTEND'].max()
+        data['HOURS_FRONTEND_norm'] = data['HOURS_FRONTEND'] / self.Max3
         data['AVG_SCORE_FRONTEND_norm'] = data['AVG_SCORE_FRONTEND'] / 100
         
         return data
